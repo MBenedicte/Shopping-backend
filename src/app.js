@@ -12,6 +12,17 @@ const server = app.listen(PORT);
 
 server.on('error', onError);
 
+app.get('/api/v1/', (req, res) => { 
+  try {
+    res.status(200).json({
+      data: "The server is working"
+    })
+   }
+  catch (error) { 
+console.log("Error",error)
+  }
+})
+
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;

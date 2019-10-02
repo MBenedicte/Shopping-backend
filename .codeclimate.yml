@@ -1,0 +1,19 @@
+version: '2'
+plugins:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+exclude_patterns:
+  - 'src/config/'
+  - 'src/models/'
+  - 'src/migrations/'
+  - 'src/seeders/'
+  - 'src/helpers/factory'
+  - '**/node_modules/'
+  - 'templates/'
+  - 'script/'
+  - '**/spec/'
+  - '**/tests/'
+  - '**/vendor/'
+  - '**/*.d.ts'
