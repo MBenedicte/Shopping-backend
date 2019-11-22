@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER
       },
       firstName: {
         type: DataTypes.STRING,
@@ -20,18 +20,16 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      email: {
+      phone: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      phone: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
+
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE

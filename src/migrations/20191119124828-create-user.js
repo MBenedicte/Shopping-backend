@@ -19,15 +19,12 @@ export default {
         type: Sequelize.STRING,
         allowNull: true
       },
-      email: {
+      phone: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
       },
       password: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      phone: {
         type: Sequelize.STRING,
         allowNull: false
       },

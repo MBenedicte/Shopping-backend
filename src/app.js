@@ -1,8 +1,11 @@
 import express from 'express';
 import 'dotenv/config';
+import routes from './routes';
+import body_parser from 'body-parser';
 
 const app = express();
-
+app.use(body_parser.json());
+app.use('/api/v1', routes);
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT);
