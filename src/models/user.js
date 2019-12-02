@@ -18,7 +18,8 @@ export default (sequelize, DataTypes) => {
       },
       username: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
       },
       phone: {
         type: DataTypes.STRING,
@@ -37,6 +38,15 @@ export default (sequelize, DataTypes) => {
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+      },
+      verificationCode: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       }
     },
     {}

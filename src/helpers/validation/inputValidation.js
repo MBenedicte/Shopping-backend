@@ -14,8 +14,14 @@ export default input => {
       .min(3)
       .max(15)
       .required(),
-    phone: Joi.string(),
-    password: Joi.string().pattern(/^[a-zA-Z0-9]{3,30}$/)
+    phone: Joi.string()
+      .trim()
+      .regex(/^[0-9]{7,12}$/)
+      .required(),
+    password: Joi.string()
+      .pattern(/^[a-zA-Z0-9]{1,30}$/)
+      .min(10)
+      .max(10)
   });
   return schema.validate(input);
 };

@@ -1,6 +1,12 @@
 import hash from './passwordHash';
-import { successResponse } from './response';
-import { errorResponse } from './response';
-import inputValidation from './validation/inputValidation'
+import { successResponse, errorResponse } from './response';
+import sendVerification from './sendVerification';
+import inputValidation from './validation/inputValidation';
 
-export { hash, successResponse, errorResponse, inputValidation };
+export {
+  hash,
+  successResponse,
+  errorResponse,
+  inputValidation,
+  sendVerification
+};

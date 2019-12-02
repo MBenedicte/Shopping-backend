@@ -17,12 +17,13 @@ export default {
       },
       username: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
       },
       phone: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique:true
+        unique: true
       },
       password: {
         type: Sequelize.STRING,

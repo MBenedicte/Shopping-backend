@@ -12,4 +12,6 @@ users.post(
   UserController.createUser
 );
 
+users.put('/register/verify', UserController.sendVerification);
+users.patch('/register/activate/:phone', UserController.activateUser);
 export default users;
