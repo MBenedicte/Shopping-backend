@@ -1,6 +1,6 @@
 import Nexmo from 'nexmo';
-import { createUserQuery, updateUser } from '../queries';
-import { hash } from '../helpers';
+import { createUserQuery, updateUser, findUser } from '../queries';
+import { hash, createToken, verifyHashed } from '../helpers';
 import statusCode from '../config/statusCode';
 import { successResponse, errorResponse } from '../helpers';
 import db from '../models';
@@ -82,5 +82,20 @@ export default class UserController {
       errorResponse(res, statusCode.NOT_FOUND, 'Such user does not exist');
     }
     successResponse(res, statusCode.OK, 'Your account has been activated');
+  }
+  static async loginUser(req, res) {
+    const { phone, password } = req.body;
+    const user = await findUser({ phone });
+    const correctPassword = verifyHashed(password, user.password);
+    if (correctPassword) {
+      const token = await createToken(phone, password);
+      successResponse(res, statusCode.OK, 'Successfully logged in', {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        token
+      });
+    }
+    errorResponse(res, statusCode.NOT_FOUND, 'Incorrect password');
   }
 }
