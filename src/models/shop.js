@@ -18,6 +18,11 @@ export default (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
+      shopName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
       address: {
         type: DataTypes.STRING,
         allowNull: false

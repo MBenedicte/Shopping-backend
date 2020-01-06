@@ -11,7 +11,7 @@ export default class UserController {
     req.body.password = hash(req.body.password);
     const created = await createUserQuery(req.body);
 
-    created.error
+    created.error || created.name === 'SequelizeValidationError'
       ? errorResponse(
           res,
           statusCode.SERVER_ERROR,
