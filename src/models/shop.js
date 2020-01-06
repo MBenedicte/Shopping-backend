@@ -8,12 +8,18 @@ export default (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      ownerId: {
-        type: DataTypes.INTEGER,
+
+      shopName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      owner: {
+        type: DataTypes.STRING,
         allowNull: false,
         referenceS: {
           model: 'Users',
-          key: 'id'
+          key: 'username'
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
@@ -39,9 +45,9 @@ export default (sequelize, DataTypes) => {
     {}
   );
   Shop.associate = models => {
-    Shop.belongsTo(models.User, { foreignKey: 'ownerId', as: 'owner' });
+    Shop.belongsTo(models.User, { foreignKey: 'owner', as: 'shopOwner' });
     Shop.hasMany(models.Product, {
-      foreignKey: 'shopId',
+      foreignKey: 'shopName',
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     });

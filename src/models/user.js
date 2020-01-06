@@ -53,7 +53,7 @@ export default (sequelize, DataTypes) => {
   );
   User.associate = models => {
     User.hasMany(models.Shop, {
-      foreignKey: 'ownerId',
+      foreignKey: 'owner',
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     });
