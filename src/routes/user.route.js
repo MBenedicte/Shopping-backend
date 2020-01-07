@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { UserController } from '../controllers/';
 import {
   checkUserExistMiddleware,
-  isUserActive
+  isUserActive,
+  checkNumberExistMiddleware
 } from '../middleware/users.middleware';
 import validation from '../middleware/validation.middleware';
 
@@ -11,11 +12,11 @@ const users = Router();
 users.post(
   '/register',
   validation,
-  checkUserExistMiddleware,
+  checkNumberExistMiddleware,
   UserController.createUser
 );
 
 users.put('/register/verify', UserController.sendVerification);
 users.patch('/register/activate/:phone', UserController.activateUser);
-users.post('/login',isUserActive, UserController.loginUser)
+users.post('/login', isUserActive, UserController.loginUser);
 export default users;
