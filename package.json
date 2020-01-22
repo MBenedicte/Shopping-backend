@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./src/tests/index.js",
+    "test": "mocha --require @babel/register ./src/tests/index.js",
     "start:dev": "nodemon --exec babel-node ./src/app.js",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate"
   },
