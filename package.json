@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require @babel/register ./src/tests/index.js",
+    "test": " nyc mocha --require @babel/register ./src/tests/index.js",
     "start:dev": "nodemon --exec babel-node ./src/app.js",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate"
   },
@@ -37,6 +37,7 @@
     "sequelize": "^5.21.2"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.3",
