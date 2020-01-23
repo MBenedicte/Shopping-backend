@@ -32,3 +32,5 @@ function onError(error) {
 }
 
 server.on('listening', () => console.log(`App is running`));
+
+export default app;
