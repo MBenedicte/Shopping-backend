@@ -30,5 +30,5 @@ script:
   - npm run cover
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-# after_success:
-#   - npm run coveralls
+after_success:
+  - npm run coveralls
