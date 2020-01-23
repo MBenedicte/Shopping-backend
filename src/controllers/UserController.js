@@ -1,4 +1,3 @@
-import Nexmo from 'nexmo';
 import { createUserQuery, updateUser, findUser } from '../queries';
 import { hash, createToken, verifyHashed, sendVerification } from '../helpers';
 import statusCode from '../config/statusCode';
@@ -66,5 +65,24 @@ export default class UserController {
       });
     }
     errorResponse(res, statusCode.NOT_FOUND, 'Incorrect password');
+  }
+
+  static async editProfile(req, res) {
+    const { username } = req.params;
+    const user = await findUser({username});
+    const newUser = await updateUser(req.body, { username });
+    newUser
+      ? successResponse(
+          res,
+          statusCode.OK,
+          'You successfully updated you profile',
+          user
+        )
+      : errorResponse(
+          res,
+          statusCode.SERVER_ERROR,
+          'Something went wrong, plz try again',
+          newUser.errors
+        );
   }
 }

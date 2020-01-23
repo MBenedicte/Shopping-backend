@@ -35,8 +35,11 @@ export const isUserActive = async (req, res, next) => {
 };
 
 export const checkUserExistMiddleware = async (req, res, next) => {
+  let data;
   const { owner } = req.body;
-  const checkUser = await findUser({ username: owner });
+  const { username } = req.params;
+  owner ? (data = owner) : (data = username);
+  const checkUser = await findUser({ username: data });
   !checkUser
     ? successResponse(res, statusCode.NOT_FOUND, 'User does not exists', null)
     : next();
