@@ -13,6 +13,19 @@ export const checkNumberExistMiddleware = async (req, res, next) => {
       )
     : next();
 };
+
+export const checkUserExistMiddleware = async (req, res, next) => {
+  let data;
+  const param = req.params.username;
+  const usernameBody = req.body.username;
+  param ? (data = param) : (data = usernameBody);
+
+  const checkUser = await findUser({ username: data });
+  !checkUser
+    ? successResponse(res, statusCode.NOT_FOUND, 'User does not exists', null)
+    : next();
+};
+
 export const isUserActive = async (req, res, next) => {
   const { phone } = req.body;
   const checkUser = await findUser({ phone });
@@ -32,15 +45,4 @@ export const isUserActive = async (req, res, next) => {
         statusCode.NOT_FOUND,
         'User is not active. Please activate your account'
       );
-};
-
-export const checkUserExistMiddleware = async (req, res, next) => {
-  let data;
-  const { owner } = req.body;
-  const { username } = req.params;
-  owner ? (data = owner) : (data = username);
-  const checkUser = await findUser({ username: data });
-  !checkUser
-    ? successResponse(res, statusCode.NOT_FOUND, 'User does not exists', null)
-    : next();
 };

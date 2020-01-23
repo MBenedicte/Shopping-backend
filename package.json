@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test npm run db:unmigrate:all:test && npm run db:migrate:test &&NODE_ENV=test nyc mocha --require @babel/register ./src/tests/index.js --exit",
+    "test": "NODE_ENV=test npm run db:unmigrate:all:test && npm run db:migrate:test &&NODE_ENV=test nyc mocha --require @babel/register  ./src/tests/index.js --exit",
     "start:dev": "nodemon --exec babel-node ./src/app.js --presets @babel/preset-env",
     "start": "concurrently \"npm run db:migrate\" \"babel-node ./src/app.js\"",
     "cover": "npm test --coverage && nyc report --reporter=text-lcov | coveralls",

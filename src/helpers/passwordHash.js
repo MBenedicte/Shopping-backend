@@ -5,6 +5,5 @@ export const hash = password => {
 };
 
 export const verifyHashed = (password, savedPassword) => {
-  
   return passwordHash.verify(password, savedPassword);
 };

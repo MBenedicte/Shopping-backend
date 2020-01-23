@@ -8,5 +8,5 @@ export default Factory.define('user')
   .attr('firstName', chance.first())
   .attr('lastName', chance.last())
   .attr('username', chance.word(5))
-  .attr('phone', chance.phone(12, { formatted: false }))
-  .attr('password', 'chance.word(5)');
+  .attr('phone', chance.phone({ formatted: false }))
+  .attr('password', 'Password09');
