@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/';
 import {
-  checkUserExistMiddleware,
+  // checkUserExistMiddleware,
   isUserActive,
   checkNumberExistMiddleware
 } from '../middleware/users.middleware';
@@ -16,7 +16,6 @@ users.post(
   UserController.createUser
 );
 
-users.put('/register/verify', UserController.sendVerification);
-users.patch('/register/activate/:phone', UserController.activateUser);
+users.patch('/register/activate/:username', UserController.activateUser);
 users.post('/login', isUserActive, UserController.loginUser);
 export default users;
