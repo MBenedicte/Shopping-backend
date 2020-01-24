@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import app from '../../app';
 import * as Factory from '../../helpers/factory';
+import { sendVerification } from '../../helpers';
 import status from '../../config/statusCode';
 import db from '../../models';
 import statusCode from '../../config/statusCode';
@@ -12,6 +13,8 @@ chai.should();
 chai.use(chaiHttp);
 
 let user = Factory.user.build();
+let verificationNumber = sendVerification();
+let newUsername;
 
 delete user.id;
 
@@ -40,8 +43,9 @@ describe('USERS', () => {
       .post(`/api/v1/auth/register`)
       .send(user)
       .end((err, res) => {
+        console.log(res.body);
+        newUsername = res.body.data.username;
         expect(res.status).to.equal(statusCode.CREATED);
-        expect(res.body.message).to.equal('You are successfully registered');
       });
     done();
   });
@@ -65,8 +69,6 @@ describe('USERS', () => {
         phone: user.phone
       })
       .end((err, res) => {
-        console.log(res);
-
         expect(res.status).to.equal(statusCode.OK);
       });
     done();
