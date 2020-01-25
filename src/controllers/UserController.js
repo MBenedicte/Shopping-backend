@@ -31,7 +31,7 @@ export default class UserController {
           res,
           statusCode.CREATED,
           `You are successfully registered, You verification number is ${verificationNumber}. Please use the number to activate your account`,
-          newUser
+          { newUser, verificationNumber }
         );
   }
 

@@ -1,2 +1,2 @@
-import './routes';
 import './queries';
+import './routes';

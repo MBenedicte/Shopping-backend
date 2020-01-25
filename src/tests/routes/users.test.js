@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import app from '../../app';
 import * as Factory from '../../helpers/factory';
 import { sendVerification } from '../../helpers';
-import status from '../../config/statusCode';
 import db from '../../models';
 import statusCode from '../../config/statusCode';
 
@@ -12,11 +11,11 @@ const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
-let user = Factory.user.build();
-let verificationNumber = sendVerification();
+let newUser = Factory.user.build();
+let verificationNumber;
 let newUsername;
 
-delete user.id;
+delete newUser.id;
 
 const token = jwt.sign(
   { phone: '250786352636', password: 'password01' },
@@ -36,41 +35,70 @@ describe('USERS', () => {
       throw error;
     }
   });
+  describe('Register the user', () => {
+    it('Should create user', done => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/register`)
+        .send(newUser)
+        .end((err, res) => {
+          verificationNumber = res.body.data.verificationNumber;
+          expect(res.status).to.equal(statusCode.CREATED);
+          done();
+        });
+    });
+    it('should display a message that the user already exist', done => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/register`)
+        .send(newUser)
+        .end((err, res) => {
+          expect(res.status).to.equal(statusCode.EXIST);
+          done();
+        });
+    });
+  });
 
-  it('Should create user', done => {
-    chai
-      .request(app)
-      .post(`/api/v1/auth/register`)
-      .send(user)
-      .end((err, res) => {
-        console.log(res.body);
-        newUsername = res.body.data.username;
-        expect(res.status).to.equal(statusCode.CREATED);
-      });
-    done();
+  describe('Activate the user', () => {
+    it('Should activate the user', done => {
+      chai
+        .request(app)
+        .patch(`/api/v1/auth/register/activate/${newUser.username}`)
+        .send({
+          verificationNumber
+        })
+        .end((err, res) => {
+          expect(res.status).to.deep.equal(statusCode.OK);
+          done();
+        });
+    });
   });
-  it('should display a message that the user already exist', done => {
-    chai
-      .request(app)
-      .post(`/api/v1/auth/register`)
-      .send(user)
-      .end((err, res) => {
-        expect(res.status).to.equal(statusCode.EXIST);
-      });
-    done();
-  });
-  it('should allow the user to log in', done => {
-    chai
-      .request(app)
-      .post(`/api/v1/auth/login`)
-      .send({
-        username: user.username,
-        password: user.password,
-        phone: user.phone
-      })
-      .end((err, res) => {
-        expect(res.status).to.equal(statusCode.OK);
-      });
-    done();
+  describe('User login', () => {
+    it('Should activate the user', done => {
+      chai
+        .request(app)
+        .patch(`/api/v1/auth/register/activate/${newUser.username}`)
+        .send({
+          verificationNumber
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(statusCode.OK);
+          done();
+        });
+    });
+    it('Should allow the user to login', done => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/login`)
+        .send({
+          username: newUser.username,
+          phone: newUser.phone,
+          password: newUser.password
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(statusCode.NOT_FOUND);
+          done();
+        });
+    });
   });
 });
