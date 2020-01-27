@@ -9,7 +9,7 @@ export const createToken = async (username, password) => {
 
 export const decodeToken = async token => {
   try {
-    const secretKey = process.env.TOKEN_SECRET_KEY;
+    const secretKey = process.env.JWT_SECRET_KEY;
     const decoded = await jwt.verify(token, secretKey);
     return decoded;
   } catch (err) {
