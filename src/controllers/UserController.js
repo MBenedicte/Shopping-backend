@@ -1,4 +1,3 @@
-import Nexmo from 'nexmo';
 import { createUserQuery, updateUser, findUser } from '../queries';
 import { hash, createToken, verifyHashed, sendVerification } from '../helpers';
 import statusCode from '../config/statusCode';
@@ -32,7 +31,7 @@ export default class UserController {
           res,
           statusCode.CREATED,
           `You are successfully registered, You verification number is ${verificationNumber}. Please use the number to activate your account`,
-          newUser
+          { newUser, verificationNumber }
         );
   }
 
@@ -56,15 +55,34 @@ export default class UserController {
     const { username, phone, password } = req.body;
     const user = await findUser({ username, phone });
     const correctPassword = verifyHashed(password, user.password);
-    if (correctPassword) {
-      const token = await createToken(phone, password);
-      successResponse(res, statusCode.OK, 'Successfully logged in', {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        token
-      });
+    if (!correctPassword) {
+      errorResponse(res, statusCode.NOT_FOUND, 'Incorrect password');
     }
-    errorResponse(res, statusCode.NOT_FOUND, 'Incorrect password');
+    const token = await createToken(username, password);
+    successResponse(res, statusCode.OK, 'Successfully logged in', {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      token
+    });
+  }
+
+  static async editProfile(req, res) {
+    const { username } = req.params;
+    const user = await findUser({ username });
+    const newUser = await updateUser(req.body, { username });
+    newUser
+      ? successResponse(
+          res,
+          statusCode.OK,
+          'You successfully updated you profile',
+          user
+        )
+      : errorResponse(
+          res,
+          statusCode.SERVER_ERROR,
+          'Something went wrong, plz try again',
+          newUser.errors
+        );
   }
 }

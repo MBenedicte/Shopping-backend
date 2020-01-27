@@ -8,6 +8,6 @@ export default async (target, condition = {}) => {
     });
     return user;
   } catch (error) {
-    return { error };
+    return { errors: error };
   }
 };

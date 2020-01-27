@@ -3,6 +3,7 @@ env:
     - CI=true
     - SECRET_KEY=12345
     - NODE_ENV=test
+    - JWT_SECRET_KEY=Secret key
     - CC_TEST_REPORTER_ID=cctest_reporter
     - DATABASE_URL_TEST=postgres://postgres@localhost:5432/shopping_test
     - APP_URL_BACKEND=http://localhost:3000
